@@ -34,7 +34,7 @@ class ImageRenderer(extension.BaseRenderer):
 
         self.metrics.add('needs_export', True)
         safe_url = escape_url_for_template(exported_url.url)
-        return self.TEMPLATE.render(base=self.assets_url, url=safe_url)
+        return self.TEMPLATE.render(base=self.assets_url, url=safe_url, question_status="block")
 
     @property
     def file_required(self):

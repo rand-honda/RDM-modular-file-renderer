@@ -3,21 +3,19 @@
 <link rel="stylesheet" href="${base}/css/examples.css">
 <link rel="stylesheet" href="${base}/css/bootstrap.min.css">
 
-
-<div id="mfrViewer${unique_id}" style="min-height: ${height}px;" data-uuid="${unique_id}">
+<div id="mfrViewer" style="min-height: ${height}px;">
     <div class="scroller scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
     <div class="scroller scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
     <nav class="wrapper">
-        <ul id="tabular-tabs${unique_id}" class="nav nav-tabs list" style="height: 45px; overflow: auto; white-space: nowrap;"> 
+        <ul id="tabular-tabs" class="nav nav-tabs list" style="height: 45px; overflow: auto; white-space: nowrap;"> 
         </ul>
     </nav>
     <div id="inlineFilterPanel" style="background:#dddddd;padding:3px;color:black;">
-        Show rows with cells including: <input type="text" id="txtSearch${unique_id}">
+        Show rows with cells including: <input type="text" id="txtSearch">
     </div>
-    <div id="mfrGrid${unique_id}" style="min-height: ${height}px;">
+    <div id="mfrGrid" style="min-height: ${height}px;">
     </div>
 </div>
-
 
 <script src="/static/js/jquery-1.11.3.min.js"></script>
 <script src="${base}/js/bootstrap.min.js"></script>
@@ -25,54 +23,44 @@
 <script src="${base}/js/slick.core.js"></script>
 <script src="${base}/js/slick.grid.js"></script>
 <script>
-    $(function () {       
+    $(function () {
         var sheets = ${sheets};
         var options = ${options};
-        var unique_id = '${unique_id}';
         var gridArr = {};
         var grid;
         var data;
         var searchString = "";
 
-       var sortedKeys = Object.keys(sheets).sort();
-       var desiredOrder = {};
-       sortedKeys.forEach(function(key) {
-            desiredOrder[key] = sheets[key];
-       });
-       sheets = desiredOrder;
-
         for (var sheetName in sheets){
             var sheet = sheets[sheetName];
             sheetName = sheetName.replace( /(:|\.|\[|\]|,|@|&|\ )/g, '_' ); //Handle characters that can't be in DOM ID's
-            $("#tabular-tabs"+unique_id).append('<li role="presentation" style="display:inline-block; float: none;"><a id="' + sheetName + unique_id + '" aria-controls="' + sheetName + unique_id + '" role="tab" data-toggle="tab">'+ sheetName + '</a></li>');
-            gridArr[sheetName+unique_id] = [sheet[0], sheet[1]];
+            $("#tabular-tabs").append('<li role="presentation" style="display:inline-block; float: none;"><a id="' + sheetName + '" aria-controls="' + sheetName + '" role="tab" data-toggle="tab">'+ sheetName + '</a></li>');
+            gridArr[sheetName] = [sheet[0], sheet[1]];
 
-            $('#'+sheetName+ unique_id).click(function (e) {
+            $('#'+sheetName).click(function (e) {
                 e.preventDefault();
                 var columns = gridArr[$(this).attr('id')][0];
                 var rows = gridArr[$(this).attr('id')][1];
 
-                grid = new Slick.Grid('#mfrGrid'+unique_id, rows, columns, options);
+                grid = new Slick.Grid('#mfrGrid', rows, columns, options);
                 searchString = "";
-                $("#txtSearch"+unique_id).value = "";
+                $("#txtSearch").value = "";
                 data = grid.getData();
                 grid.onSort.subscribe(sortData);
             });
         }
 
-        var test = $("#tabular-tabs"+unique_id);
+        $("#tabular-tabs").tab();
+        $("#tabular-tabs a:first").click();
 
-        $("#tabular-tabs"+unique_id).tab();
-        $("#tabular-tabs"+unique_id+" a:first").click();
-
-        $("#txtSearch"+unique_id).keyup(function (e) {
+        $("#txtSearch").keyup(function (e) {
             // clear on Esc
             if (e.which == 27) {
               this.value = "";
             }
             searchString = this.value;
             var filteredData = (searchString !== "") ? filterData(data, searchString) : data;
-            grid = new Slick.Grid('#mfrGrid'+unique_id, filteredData, grid.getColumns(), options);
+            grid = new Slick.Grid('#mfrGrid', filteredData, grid.getColumns(), options);
             grid.onSort.subscribe(sortData);
         });
 

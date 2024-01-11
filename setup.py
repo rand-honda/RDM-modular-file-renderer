@@ -682,6 +682,13 @@ setup(
             '.tif = mfr.extensions.pdf:PdfRenderer',
             '.tiff = mfr.extensions.pdf:PdfRenderer',
 
+            # hdf5
+            '.h5 = mfr.extensions.hdf5:HDF5Renderer',
+            '.hdf5 = mfr.extensions.hdf5:HDF5Renderer',
+
+            # hdf5create
+            '.h5create = mfr.extensions.hdf5create:HDF5Create',
+
             # ipynb
             '.ipynb = mfr.extensions.ipynb:IpynbRenderer',
 

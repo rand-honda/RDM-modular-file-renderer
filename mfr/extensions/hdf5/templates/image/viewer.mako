@@ -13,7 +13,7 @@
     <p><b> Zoom:</b> Click on the image and use the mouse wheel to zoom in and out</p>
     <p><b> Navigate:</b> Move the mouse cursor to navigate through the magnified image</p>
    "
-><img src="${base}/images/question-circle.png" style="display:${question_status}"></a>
+><img src="${base}/images/question-circle.png"></a>
 
 ## The image to render, which will be wrapped accordingly if zoom is enabled
 <img id="base-image" style="max-width: 100%" class="baseImage" src="${url}">
@@ -71,8 +71,6 @@
             $('[data-toggle="popover"]').popover();
 
             var baseImage = $("#base-image");
-            //console.log('baseImage : ' + JSON.stringify(baseImage));
-            //console.log('baseImage[0] : ' + JSON.stringify(baseImage[0]));
 
             ## Quirks: the base image must be wrapped, see http://www.jacklmoore.com/zoom/
             ##
@@ -91,16 +89,13 @@
                 ## Obtain the original height and width for the image loaded
                 var baseImageHeight = parseInt(baseImage.css("height"), 10);
                 var baseImageWidth = parseInt(baseImage.css("width"), 10);
-                //console.log('baseImageHeight  : ' + baseImageHeight);
-                //console.log('baseImageWidth  : ' + baseImageWidth);
+
                 ## Detect the Google Chrome browser
                 var isChrome = !!window.chrome;
-                //console.log('isChrome : ' + isChrome);
 
                 ## Detect if the image is downsized due to screen size
                 var isActualSize = heightLimit === baseImageHeight || widthLimit === baseImageWidth;
-                //console.log('isActualSize  : ' + isActualSize);
-                
+
                 if (isActualSize || !isChrome) {
                     ## Use the default wrapping suggested by http://www.jacklmoore.com/zoom/ if
                     ## either of the two conditions below holds:
@@ -150,7 +145,6 @@
             ## Quirks: Need to use an in-memory copy of the image to prevent the zoom image from
             ##         moving around.  Without this in-memoery copy, the zoom image moves around
             ##         horizontally and "centers" wherever the mouse cursor is.
-            //console.log("src ::: " + baseImage.attr("src"));
             $("<img>").attr("src", $(baseImage[0]).attr("src")).load(function () {
 
                 widthLimit = this.width;

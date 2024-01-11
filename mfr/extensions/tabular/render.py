@@ -8,6 +8,7 @@ from mako.lookup import TemplateLookup
 
 from mfr.core import extension
 from mfr.extensions.tabular import settings, exceptions
+import uuid
 
 logger = logging.getLogger(__name__)
 
@@ -35,7 +36,7 @@ class TabularRenderer(extension.BaseRenderer):
 
         # Force GC
         gc.collect()
-
+        unique_id = str(uuid.uuid4())
         if sheets and size:
             return self.TEMPLATE.render(
                 base=self.assets_url,
@@ -43,6 +44,7 @@ class TabularRenderer(extension.BaseRenderer):
                 height=settings.TABLE_HEIGHT,
                 sheets=json.dumps(sheets),
                 options=json.dumps(size),
+                unique_id = unique_id,
             )
 
         assert nbr_rows and nbr_cols
