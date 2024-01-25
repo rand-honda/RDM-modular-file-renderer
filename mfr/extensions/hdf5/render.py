@@ -184,7 +184,7 @@ class HDF5Renderer(extension.BaseRenderer):
                         file_path = ''
                 # file_name = ''
                 # div = ''
-                    return self.TEMPLATE.render(base=self.assets_url, tree_data=tree_data, file_path=self.file_path, div=div, file_attribute=file_attribute, button='戻る')                        
+                    return self.TEMPLATE.render(base=self.assets_url, tree_data=tree_data, file_path=self.file_path, div=div, file_attribute=file_attribute, button='戻る', base_url=base_url)                        
                 
                 else:
                     # 一致しなかった場合はHDF5ファイルではないと判定する   
@@ -554,7 +554,7 @@ class HDF5Renderer(extension.BaseRenderer):
         try:
             encoded_image = base64.b64encode(dataset).decode("utf-8")                    
             url = "data:image/jpeg;base64," + encoded_image    
-            return self.IMAGE_TEMPLATE.render(base="http://localhost:7778/assets/image", url=url)
+            return self.IMAGE_TEMPLATE.render(base="http://localhost:7778/assets/image", url=url, question_status="none")
         except Exception as e:                    
             return  str(e)   
                     

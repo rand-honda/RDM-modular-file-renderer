@@ -29,6 +29,7 @@ from mfr.extensions.tabular import settings, exceptions
 import re
 import logging
 
+
 logger = logging.getLogger(__name__)
 
 class HDF5Renderer(extension.BaseRenderer):
@@ -64,6 +65,9 @@ class HDF5Renderer(extension.BaseRenderer):
 
         # HDF5ファイルのパスを指定
         hdf5_file_path = self.file_path ##これが元ファイル
+        
+        base_url = self.url
+        # base_url = f"{parsed_url.scheme}://{parsed_url.netloc}{parsed_url.path}"
 
         body = ""
         
@@ -110,7 +114,7 @@ class HDF5Renderer(extension.BaseRenderer):
                                 dataset = f[dataset_path]                    
                                 if dataset.name.endswith(('txt','text')) or (isinstance(dataset[0], str) and not dataset.name.endswith(('csv', 'tsv'))):
                                     div += '<div id="' + file_name_formatted + '" style="display:none;">'
-                                    div += self.code_pygments_render(dataset[0])
+                                    div += self.code_pygments_render('<pre>'+ dataset[0] + '</pre>')
                                     div += '</div>'  
                                     
                                     attribute_names =  list(dataset.attrs.keys())                                                                                      
@@ -184,7 +188,7 @@ class HDF5Renderer(extension.BaseRenderer):
                         file_path = ''
                 # file_name = ''
                 # div = ''
-                    return self.TEMPLATE.render(base=self.assets_url, tree_data=tree_data, file_path=self.file_path, div=div, file_attribute=file_attribute, button='戻る')                        
+                    return self.TEMPLATE.render(base=self.assets_url, tree_data=tree_data, file_path=self.file_path, div=div, file_attribute=file_attribute, button='戻る', base_url=base_url)                        
                 
                 else:
                     # 一致しなかった場合はHDF5ファイルではないと判定する   
@@ -554,7 +558,7 @@ class HDF5Renderer(extension.BaseRenderer):
         try:
             encoded_image = base64.b64encode(dataset).decode("utf-8")                    
             url = "data:image/jpeg;base64," + encoded_image    
-            return self.IMAGE_TEMPLATE.render(base="http://localhost:7778/assets/image", url=url)
+            return self.IMAGE_TEMPLATE.render(base="http://localhost:7778/assets/image", url=url, question_status="none")
         except Exception as e:                    
             return  str(e)   
                     

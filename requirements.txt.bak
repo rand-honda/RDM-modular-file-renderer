@@ -1,4 +1,4 @@
-aiohttp==0.22.5
+aiohttp==0.18.4
 chardet==2.3.0
 furl==0.4.2
 humanfriendly==2.1
@@ -46,6 +46,7 @@ docutils==0.12
 
 # Tabular
 pandas==0.25.1
+# xlrd==1.0.0
 xlrd==1.2.0
 h5py==2.7.0
 scipy==0.19.1
