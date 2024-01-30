@@ -44,7 +44,7 @@ class TabularRenderer(extension.BaseRenderer):
                 height=settings.TABLE_HEIGHT,
                 sheets=json.dumps(sheets),
                 options=json.dumps(size),
-                unique_id = unique_id,
+                unique_id=unique_id,
             )
 
         assert nbr_rows and nbr_cols
