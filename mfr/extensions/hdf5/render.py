@@ -53,7 +53,7 @@ class HDF5Renderer(extension.BaseRenderer):
         HDF5_MAGIC_NUMBER = b'\x89\x48\x44\x46\x0d\x0a\x1a\x0a'
 
         # HDF5ファイルのパスを指定
-        hdf5_file_path = self.file_path  #これが元ファイル
+        hdf5_file_path = self.file_path
         base_url = self.url
 
         try:
@@ -82,10 +82,10 @@ class HDF5Renderer(extension.BaseRenderer):
                                     file_name_formatted = '_' + file_name
 
                                 dataset = f[dataset_path]
-                                
+
                                 if dataset.name.endswith(('txt', 'text')) or (isinstance(dataset[0], str) and not dataset.name.endswith(('csv', 'tsv'))):
                                     div += '<div id="' + file_name_formatted + '" style="display:none;">'
-                                    div += self.code_pygments_render('<pre>'+ dataset[0] + '</pre>')
+                                    div += self.code_pygments_render('<pre>' + dataset[0] + '</pre>')
                                     div += '</div>'
 
                                     attribute_names = list(dataset.attrs.keys())
@@ -152,7 +152,7 @@ class HDF5Renderer(extension.BaseRenderer):
                                     div += '<div id="' + file_name_formatted + '" style="display:none;">'
                                     div += 'unsupported File.'
                                     div += '</div>'
-                        file_path = ''
+
                     return self.TEMPLATE.render(base=self.assets_url, tree_data=tree_data, file_path=self.file_path, div=div, file_attribute=file_attribute, button='戻る', base_url=base_url)
 
                 else:
@@ -161,10 +161,9 @@ class HDF5Renderer(extension.BaseRenderer):
                     output = ""
                     errorString = ""
                     uploadUrl = ""
-                    filepath = self.file_path  #これが元ファイル
-                    metadata_download_url = str(self.metadata.download_url)  #最初のはてなでぶった切り->そのまま行けそう
-                    ##auth = HTTPBasicAuth("jyunji.honda@pmb.rand.co.jp", "B1oF5Cl3")
-                    auth = HTTPBasicAuth("dummy@dummy.co.jp", "12345678")                    
+                    filepath = self.file_path
+                    metadata_download_url = str(self.metadata.download_url)
+                    auth = HTTPBasicAuth("dummy@dummy.co.jp", "12345678")
 
                     ##jsonファイルの読み込み
                     try:
@@ -190,7 +189,7 @@ class HDF5Renderer(extension.BaseRenderer):
 
                             #ディレクトリlistのループ
                             rootPath = ""
-                            for item in dirs:                
+                            for item in dirs:
                                 arr = item.split(":", 1)
                                 h5ItemPath = arr[0]
 
@@ -336,7 +335,7 @@ class HDF5Renderer(extension.BaseRenderer):
                                     div += '</div>'
 
                     file = open(h5_path, 'rb')
-                    
+
                     headers = {'Content-type': 'application/octet-stream'}
 
                     r = requests.put(uploadUrl, data=file, headers=headers, auth=auth)
@@ -494,10 +493,9 @@ class HDF5Renderer(extension.BaseRenderer):
         output = ""
         errorString = ""
         uploadUrl = ""
-        filepath = self.file_path  #これが元ファイル
+        filepath = self.file_path
         metadata_download_url = str(self.metadata.download_url) 
-        #auth = HTTPBasicAuth("jyunji.honda@pmb.rand.co.jp", "B1oF5Cl3")
-        auth = HTTPBasicAuth("dummy@dummy.co.jp", "12345678")                            
+        auth = HTTPBasicAuth("dummy@dummy.co.jp", "12345678")
 
         ##jsonファイルの読み込み
         try:
@@ -610,7 +608,7 @@ class HDF5Renderer(extension.BaseRenderer):
             retChardet = chardet.detect(urlData.content).get('encoding')
 
             returnText = returnText + '<br>' + "text_get_ok"
-            with open(downloadFileName, mode='wt', encoding="utf-8") as file1w: # wb でバイト型を書き込める
+            with open(downloadFileName, mode='wt', encoding="utf-8") as file1w:  # wb でバイト型を書き込める
                 file1w.write(urlData.text)
 
             returnText = returnText + '<br>' + "text_write_ok"
@@ -648,7 +646,7 @@ class HDF5Renderer(extension.BaseRenderer):
             returnText = returnText + '<br>' + "csvtsv_write_ok"
 
             if (_extension == '.tsv'):
-                df = pd.read_csv(downloadFileName, sep='\t')
+                pd.read_csv(downloadFileName, sep='\t')
             #else:
                 #df = pd.read_csv(downloadFileName, encoding=retChardet)
                 #df = pd.read_csv(downloadFileName)
@@ -689,7 +687,7 @@ class HDF5Renderer(extension.BaseRenderer):
                 )
                 dataset[0] = excel_data
 
-            returnText = returnText + '<br>' +"excel_Create_Success"
+            returnText = returnText + '<br>' + "excel_Create_Success"
 
         except Exception as e:
             returnText = returnText + '<br>errorProcExcel:' + str(e)
