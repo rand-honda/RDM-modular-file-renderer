@@ -494,7 +494,7 @@ class HDF5Renderer(extension.BaseRenderer):
         errorString = ""
         uploadUrl = ""
         filepath = self.file_path
-        metadata_download_url = str(self.metadata.download_url) 
+        metadata_download_url = str(self.metadata.download_url)
         auth = HTTPBasicAuth("dummy@dummy.co.jp", "12345678")
 
         ##jsonファイルの読み込み
